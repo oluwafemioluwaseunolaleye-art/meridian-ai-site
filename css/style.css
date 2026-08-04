@@ -147,7 +147,7 @@ button{ font-family:inherit; cursor:pointer; }
   z-index:100;
   background:rgba(6,20,38,.55);
   border-bottom:1px solid transparent;
-  transition:background var(--dur-m) var(--ease), border-color var(--dur-m) var(--ease), backdrop-filter var(--dur-m) var(--ease);
+  transition:background var(--dur-m) var(--ease), border-color var(--dur-m) var(--ease);
 }
 .nav.scrolled{
   background:rgba(3,9,20,.82);
@@ -818,4 +818,46 @@ button{ font-family:inherit; cursor:pointer; }
   .hero-actions .btn{ width:100%; }
   .hero-actions.center{ align-items:center; }
   .hero-actions.center .btn{ width:100%; max-width:320px; }
+}
+
+/* =========================================================
+   Mobile performance: same visuals, cheaper to render.
+   Phone GPUs choke on backdrop-filter blur, filter:drop-shadow
+   animating every frame, and stacked gradients repainting on
+   scroll. This trims those specific costs on small screens only
+   — desktop is untouched.
+   ========================================================= */
+@media (max-width: 760px){
+  .nav.scrolled{
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    background:rgba(3,9,20,.94);
+  }
+  .hero-bg{
+    background:linear-gradient(180deg, var(--navy-mid), var(--navy-deep) 40%, var(--navy-royal));
+  }
+  .flow-particle{ filter:none; }
+  .command-center{ box-shadow:0 14px 28px -14px rgba(0,0,0,.55); }
+  .founder-frame{ box-shadow:0 0 24px -8px rgba(212,175,106,.22); }
+  .btn-primary:hover, .btn-outline:hover{
+    transform:none;
+    box-shadow:none;
+  }
+  .p-card:hover, .i-card:hover, .why-card:hover,
+  .integration-card:hover{
+    transform:none;
+  }
+  .final-cta-bg{
+    background:radial-gradient(60% 50% at 50% 20%, rgba(212,175,106,.12), transparent 65%);
+  }
+}
+
+/* Pause continuous animations while off-screen — cuts wasted
+   GPU/compositor work during scroll on every screen size,
+   with zero visual change while a section is actually in view. */
+.anim-paused .node-glow,
+.anim-paused .flow-particle,
+.anim-paused .dot,
+.anim-paused .cc-line::after{
+  animation-play-state:paused !important;
 }

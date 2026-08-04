@@ -120,6 +120,32 @@
   }
 
   /* =========================================================
+     Performance: pause continuous animations while off-screen.
+     Same look whenever a section is actually visible — this
+     only stops wasted compositor work while scrolled away,
+     which matters most on lower-powered phones.
+     ========================================================= */
+  if ("IntersectionObserver" in window) {
+    var animScopes = document.querySelectorAll(
+      ".hero-visual, .command-center"
+    );
+    var animPauseObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          entry.target.classList.toggle(
+            "anim-paused",
+            !entry.isIntersecting
+          );
+        });
+      },
+      { threshold: 0.01 }
+    );
+    animScopes.forEach(function (el) {
+      animPauseObserver.observe(el);
+    });
+  }
+
+  /* =========================================================
      AI Automation Command Center — simulated demo
      ========================================================= */
   var runBtn = document.getElementById("run-demo");
