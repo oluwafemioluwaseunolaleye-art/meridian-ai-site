@@ -261,3 +261,153 @@
     runBtn.addEventListener("click", runSimulation);
   }
 })();
+
+/* =========================================================
+   MERIDIAN AI — TALLY POPUP
+   Added separately — existing code remains untouched
+   ========================================================= */
+
+(function () {
+  "use strict";
+
+  var MERIDIAN_TALLY_URL = "https://tally.so/r/jaX7Za";
+
+  /* =========================================================
+     Create popup dynamically
+     No existing HTML needs to be changed
+     ========================================================= */
+
+  var modal = document.createElement("div");
+  modal.className = "tally-modal";
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-label", "Book a Free AI Audit");
+
+  modal.innerHTML = `
+    <div class="tally-modal-container">
+
+      <div class="tally-modal-header">
+
+        <div class="tally-modal-title">
+          Book a Free AI Audit
+        </div>
+
+        <button
+          type="button"
+          class="tally-modal-close"
+          aria-label="Close AI audit form"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <iframe
+        class="tally-modal-iframe"
+        src="${MERIDIAN_TALLY_URL}"
+        title="Meridian AI Free AI Audit"
+        loading="lazy"
+        allow="fullscreen"
+      ></iframe>
+
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  var modalContainer = modal.querySelector(".tally-modal-container");
+  var closeButton = modal.querySelector(".tally-modal-close");
+
+  /* =========================================================
+     Open popup
+     ========================================================= */
+
+  function openTallyPopup() {
+
+    modal.classList.add("open");
+
+    document.body.classList.add("tally-modal-open");
+
+    closeButton.focus();
+
+  }
+
+  /* =========================================================
+     Close popup
+     ========================================================= */
+
+  function closeTallyPopup() {
+
+    modal.classList.remove("open");
+
+    document.body.classList.remove("tally-modal-open");
+
+  }
+
+  /* =========================================================
+     Intercept EVERY existing Tally CTA
+     
+     Capture phase is intentional.
+     It prevents the ORIGINAL window.open()
+     code from opening a new browser tab.
+     ========================================================= */
+
+  document.querySelectorAll(".tally-cta").forEach(function (button) {
+
+    button.addEventListener(
+      "click",
+      function (event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+        openTallyPopup();
+
+      },
+      true
+    );
+
+  });
+
+  /* =========================================================
+     Close button
+     ========================================================= */
+
+  closeButton.addEventListener("click", function () {
+    closeTallyPopup();
+  });
+
+  /* =========================================================
+     Click outside popup to close
+     ========================================================= */
+
+  modal.addEventListener("click", function (event) {
+
+    if (event.target === modal) {
+      closeTallyPopup();
+    }
+
+  });
+
+  /* =========================================================
+     Prevent clicks inside form container from closing
+     ========================================================= */
+
+  modalContainer.addEventListener("click", function (event) {
+    event.stopPropagation();
+  });
+
+  /* =========================================================
+     ESC key closes popup
+     ========================================================= */
+
+  document.addEventListener("keydown", function (event) {
+
+    if (event.key === "Escape" && modal.classList.contains("open")) {
+      closeTallyPopup();
+    }
+
+  });
+
+})();
