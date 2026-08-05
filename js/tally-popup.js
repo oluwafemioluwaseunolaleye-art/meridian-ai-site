@@ -43,16 +43,11 @@
 
   document.body.appendChild(modal);
 
-
-  /* =========================================================
-     ELEMENTS
-     ========================================================= */
-
   var closeButton = modal.querySelector(".tally-modal-close");
 
 
   /* =========================================================
-     OPEN POPUP
+     OPEN
      ========================================================= */
 
   function openPopup() {
@@ -61,11 +56,14 @@
 
     document.body.classList.add("tally-modal-open");
 
+    /* Fix iPhone/iPad viewport behavior */
+    document.documentElement.classList.add("tally-popup-active");
+
   }
 
 
   /* =========================================================
-     CLOSE POPUP
+     CLOSE
      ========================================================= */
 
   function closePopup() {
@@ -74,13 +72,13 @@
 
     document.body.classList.remove("tally-modal-open");
 
+    document.documentElement.classList.remove("tally-popup-active");
+
   }
 
 
   /* =========================================================
-     BUTTON INTERCEPTOR
-     
-     THIS RUNS BEFORE THE EXISTING SCRIPT.JS HANDLER
+     CATCH ALL TALLY BUTTONS
      ========================================================= */
 
   document.addEventListener(
@@ -93,9 +91,6 @@
         return;
       }
 
-      /*
-       * Stop the existing window.open() code.
-       */
       event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
@@ -111,7 +106,9 @@
      CLOSE BUTTON
      ========================================================= */
 
-  closeButton.addEventListener("click", function () {
+  closeButton.addEventListener("click", function (event) {
+
+    event.preventDefault();
 
     closePopup();
 
@@ -119,22 +116,20 @@
 
 
   /* =========================================================
-     CLICK BACKDROP TO CLOSE
+     BACKDROP
      ========================================================= */
 
   modal.addEventListener("click", function (event) {
 
     if (event.target === modal) {
-
       closePopup();
-
     }
 
   });
 
 
   /* =========================================================
-     ESC TO CLOSE
+     ESC
      ========================================================= */
 
   document.addEventListener("keydown", function (event) {
@@ -148,6 +143,9 @@
 
     }
 
+  });
+
+})();
   });
 
 })();
