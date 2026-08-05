@@ -861,3 +861,194 @@ button{ font-family:inherit; cursor:pointer; }
 .anim-paused .cc-line::after{
   animation-play-state:paused !important;
 }
+
+/* =========================================================
+   TALLY AI AUDIT POPUP
+   Added without changing existing website styles
+   ========================================================= */
+
+.tally-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 280ms var(--ease),
+    visibility 280ms var(--ease);
+}
+
+.tally-modal.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.tally-modal-container {
+  position: relative;
+  width: min(720px, 96vw);
+  height: min(820px, 92vh);
+  background: var(--navy-deep);
+  border: 1px solid rgba(212, 175, 106, 0.55);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 30px 100px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(212, 175, 106, 0.08);
+
+  transform: translateY(20px) scale(.97);
+  transition:
+    transform 320ms var(--ease),
+    opacity 320ms var(--ease);
+  opacity: 0;
+}
+
+.tally-modal.open .tally-modal-container {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.tally-modal-header {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px 0 22px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(11, 31, 58, .98),
+      rgba(6, 20, 38, .98)
+    );
+
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.tally-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.tally-modal-title::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 10px rgba(212, 175, 106, .65);
+}
+
+.tally-modal-close {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, .04);
+  color: var(--white);
+
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background var(--dur-s) var(--ease),
+    border-color var(--dur-s) var(--ease),
+    color var(--dur-s) var(--ease),
+    transform var(--dur-s) var(--ease);
+}
+
+.tally-modal-close:hover {
+  background: rgba(212, 175, 106, .12);
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: rotate(90deg);
+}
+
+.tally-modal-iframe {
+  display: block;
+  width: 100%;
+  height: calc(100% - 58px);
+  border: 0;
+  background: var(--white);
+}
+
+/* Prevent background page from scrolling while popup is open */
+body.tally-modal-open {
+  overflow: hidden;
+}
+
+/* =========================================================
+   TALLY POPUP — MOBILE
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .tally-modal {
+    padding: 10px;
+    align-items: center;
+  }
+
+  .tally-modal-container {
+    width: 100%;
+    height: 94vh;
+    max-height: 94vh;
+    border-radius: 12px;
+  }
+
+  .tally-modal-header {
+    height: 54px;
+    padding: 0 14px 0 18px;
+  }
+
+  .tally-modal-iframe {
+    height: calc(100% - 54px);
+  }
+
+  .tally-modal-close {
+    width: 34px;
+    height: 34px;
+    font-size: 22px;
+  }
+
+  .tally-modal-title {
+    font-size: .65rem;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .tally-modal,
+  .tally-modal-container,
+  .tally-modal-close {
+    transition: none !important;
+  }
+
+}
