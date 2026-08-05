@@ -864,29 +864,33 @@ button{ font-family:inherit; cursor:pointer; }
 
 /* =========================================================
    MERIDIAN AI — TALLY POPUP
-   NEW CODE — EXISTING CSS UNCHANGED
+   MOBILE + DESKTOP
    ========================================================= */
 
 .tally-modal {
   position: fixed;
   inset: 0;
+
+  width: 100%;
+  height: 100%;
+
   z-index: 999999;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  padding: 24px;
+  padding: 20px;
 
-  background: rgba(0, 0, 0, 0.78);
+  background: rgba(0, 0, 0, 0.82);
 
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 
   transition:
-    opacity 300ms ease,
-    visibility 300ms ease;
+    opacity 250ms ease,
+    visibility 250ms ease;
 }
 
 .tally-modal.open {
@@ -895,10 +899,13 @@ button{ font-family:inherit; cursor:pointer; }
   pointer-events: auto;
 }
 
+
 .tally-modal-container {
+
   position: relative;
 
   width: min(720px, 96vw);
+
   height: min(820px, 92vh);
 
   background: #061426;
@@ -910,38 +917,47 @@ button{ font-family:inherit; cursor:pointer; }
   overflow: hidden;
 
   box-shadow:
-    0 30px 100px rgba(0, 0, 0, 0.75),
-    0 0 50px rgba(212, 175, 106, 0.12);
+    0 30px 100px rgba(0, 0, 0, 0.75);
 
-  transform: translateY(25px) scale(.97);
+  transform: translateY(20px) scale(.97);
 
   transition:
-    transform 300ms ease,
-    opacity 300ms ease;
+    transform 280ms ease,
+    opacity 280ms ease;
 
   opacity: 0;
 }
 
 .tally-modal.open .tally-modal-container {
+
   transform: translateY(0) scale(1);
+
   opacity: 1;
+
 }
 
+
 .tally-modal-header {
+
   height: 58px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 
   padding: 0 18px 0 22px;
 
   background: #030914;
 
-  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+
 }
 
+
 .tally-modal-title {
+
   font-family: 'JetBrains Mono', monospace;
 
   font-size: .72rem;
@@ -949,14 +965,20 @@ button{ font-family:inherit; cursor:pointer; }
   letter-spacing: .12em;
 
   color: #D4AF6A;
+
 }
 
+
 .tally-modal-close {
+
   width: 36px;
+
   height: 36px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   border: 1px solid rgba(255,255,255,.15);
@@ -965,38 +987,39 @@ button{ font-family:inherit; cursor:pointer; }
 
   background: rgba(255,255,255,.04);
 
-  color: white;
+  color: #FFFFFF;
 
   font-size: 24px;
 
   cursor: pointer;
 
-  transition:
-    .2s ease;
+  -webkit-tap-highlight-color: transparent;
+
 }
 
-.tally-modal-close:hover {
-  color: #D4AF6A;
-
-  border-color: #D4AF6A;
-
-  transform: rotate(90deg);
-}
 
 .tally-modal-iframe {
+
   display: block;
 
   width: 100%;
 
   height: calc(100% - 58px);
 
-  border: none;
+  border: 0;
 
-  background: white;
+  background: #FFFFFF;
+
 }
 
+
+/* Lock background */
+
+html.tally-popup-active,
 body.tally-modal-open {
+
   overflow: hidden;
+
 }
 
 
@@ -1007,24 +1030,109 @@ body.tally-modal-open {
 @media (max-width: 760px) {
 
   .tally-modal {
-    padding: 10px;
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+
+    height: 100dvh;
+
+    min-height: 100dvh;
+
+    padding: 8px;
+
+    align-items: center;
+
+    justify-content: center;
+
+  }
+
+
+  .tally-modal-container {
+
+    width: 100%;
+
+    height: 96dvh;
+
+    max-height: 96dvh;
+
+    border-radius: 12px;
+
+    transform: translateY(15px);
+
+  }
+
+
+  .tally-modal.open .tally-modal-container {
+
+    transform: translateY(0);
+
+  }
+
+
+  .tally-modal-header {
+
+    height: 54px;
+
+    min-height: 54px;
+
+    padding: 0 12px 0 16px;
+
+  }
+
+
+  .tally-modal-iframe {
+
+    width: 100%;
+
+    height: calc(96dvh - 54px);
+
+    min-height: 0;
+
+  }
+
+
+  .tally-modal-close {
+
+    width: 34px;
+
+    height: 34px;
+
+    font-size: 22px;
+
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+  .tally-modal {
+
+    padding: 4px;
+
   }
 
   .tally-modal-container {
-    width: 100%;
-    height: 94vh;
 
-    border-radius: 12px;
-  }
+    height: 98dvh;
 
-  .tally-modal-header {
-    height: 54px;
+    max-height: 98dvh;
 
-    padding: 0 14px 0 18px;
+    border-radius: 10px;
+
   }
 
   .tally-modal-iframe {
-    height: calc(100% - 54px);
+
+    height: calc(98dvh - 54px);
+
   }
 
 }
